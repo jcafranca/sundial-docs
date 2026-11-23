@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sundial Documentation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Documentation for Sundial, a day-night cycle, weather and time dial for Unity 6 (URP).">
+<style>
+  :root { --ink:#1d2430; --muted:#5a6475; --gold:#e2c47c; --navy:#12161e; --line:#d6dae1; --soft:#f1f2f5; --bg:#ffffff; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; color: var(--ink); background: var(--bg); margin: 0; }
+  main { max-width: 940px; margin: 0 auto; padding: 0 20px 80px; }
+  h1 { font-size: 30px; margin: 56px 0 10px; color: #0f1724; border-bottom: 3px solid var(--gold); padding-bottom: 6px; scroll-margin-top: 16px; }
+  h2 { font-size: 21px; margin: 28px 0 6px; color: #0f1724; }
+  p, li { margin: 6px 0; }
+  ol, ul { padding-left: 22px; }
+  code { font: 14px Menlo, Consolas, monospace; background: var(--soft); padding: 1px 4px; border-radius: 4px; }
+  pre { font: 13.5px/1.5 Menlo, Consolas, monospace; background: var(--soft); padding: 12px 14px; border-radius: 8px; overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 18px; font-size: 14.5px; }
+  th, td { border: 1px solid var(--line); padding: 6px 9px; text-align: left; vertical-align: top; }
+  th { background: #eef0f4; }
+  .note { background: #fff8e6; border-left: 4px solid var(--gold); padding: 10px 14px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+  .tip { background: #eef6f0; border-left: 4px solid #4a9a62; padding: 10px 14px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+  figure { margin: 12px 0 18px; text-align: center; }
+  figure img { max-width: 100%; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,.22); }
+  figcaption { font-size: 13.5px; color: var(--muted); margin-top: 5px; }
+  .grid2, .grid3 { display: grid; gap: 10px; margin: 10px 0; }
+  .grid2 { grid-template-columns: 1fr 1fr; }
+  .grid3 { grid-template-columns: 1fr 1fr 1fr; }
+  .grid2 figure, .grid3 figure { margin: 0; }
+  .side { display: grid; grid-template-columns: 1fr 42%; gap: 22px; align-items: start; margin: 10px 0; }
+  .side figure { margin: 0; }
+  .side.narrow { grid-template-columns: 1fr 34%; }
+  .steps { counter-reset: s; list-style: none; padding-left: 0; }
+  .steps > li { counter-increment: s; position: relative; padding-left: 34px; margin: 9px 0; }
+  .steps > li::before { content: counter(s); position: absolute; left: 0; top: 1px; width: 24px; height: 24px; border-radius: 50%; background: var(--gold); color: var(--navy); font-weight: bold; font-size: 13px; text-align: center; line-height: 24px; }
+  .kbd { font: bold 13px -apple-system, Helvetica, Arial, sans-serif; border: 1px solid #b9bfca; border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: #f8f9fb; }
+  .hero { position: relative; background: var(--navy); color: #fff; overflow: hidden; }
+  .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .45; }
+  .hero .in { position: relative; max-width: 940px; margin: 0 auto; padding: 72px 20px 56px; }
+  .hero h1 { border: none; color: #fff; font-size: 52px; margin: 0; padding: 0; }
+  .hero .sub { font-size: 21px; color: var(--gold); margin-top: 4px; }
+  .hero .kind { color: #e8eaee; margin-top: 12px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .btn { display: inline-block; padding: 10px 18px; border-radius: 999px; font-weight: 600; text-decoration: none; }
+  .btn.primary { background: var(--gold); color: var(--navy); }
+  .btn.ghost { border: 1px solid rgba(255,255,255,.6); color: #fff; }
+  .toc { columns: 2; column-gap: 28px; font-size: 15px; background: var(--soft); padding: 18px 22px; border-radius: 10px; }
+  .toc ul { list-style: none; padding-left: 0; margin: 0; }
+  .toc > ul > li { break-inside: avoid; margin-bottom: 8px; }
+  .toc ul ul { padding-left: 14px; font-size: 13.5px; color: #4a5568; }
+  .toc a { color: inherit; text-decoration: none; }
+  .toc > ul > li > a { font-weight: 700; }
+  .toc a:hover { text-decoration: underline; }
+  video { width: 100%; border-radius: 10px; background: #000; box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+  footer { text-align: center; color: var(--muted); font-size: 13.5px; padding: 30px 20px 50px; border-top: 1px solid var(--line); }
+  code, td { overflow-wrap: anywhere; }
+  img, video { max-width: 100%; }
+  @media (max-width: 720px) {
+    .side, .side.narrow, .grid2, .grid3 { grid-template-columns: 1fr; }
+    table { display: block; overflow-x: auto; }
+    .toc { columns: 1; }
+    .hero h1 { font-size: 40px; }
+    table { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <img src="images/cover.jpg" alt="">
+  <div class="in">
+    <h1>Sundial</h1>
+    <div class="sub">Day-Night Cycle, Weather &amp; Time Dial for Unity</div>
+    <div class="kind">Documentation: getting started, setup guide, feature guides and script reference. Version 1.0.0 · Unity 6 · URP</div>
+    <div class="btns">
+      <a class="btn primary" href="#video">Watch the setup video</a>
+      <a class="btn ghost" href="Sundial_Documentation.pdf">Download the PDF manual</a>
+    </div>
+  </div>
+</header>
+<main>
+
+<h1 id="toc">Contents</h1>
+<div class="toc"><ul>
+  <li><a href="#s1">1. Introduction</a><ul><li>1.1 What Sundial does</li><li>1.2 Package contents</li><li>1.3 Names used in the project</li></ul></li>
+  <li><a href="#s2">2. Requirements</a></li>
+  <li><a href="#s3">3. Getting Started</a><ul><li>3.1 Create a new project</li><li>3.2 Import Sundial</li><li>3.3 The Setup window</li><li>3.4 Try the demo scene</li><li>3.5 Video tutorial</li></ul></li>
+  <li><a href="#s4">4. Setup Guide</a><ul><li>4.1 Add Sundial to the scene</li><li>4.2 Sun, moon and sky</li><li>4.3 Weather</li><li>4.4 Character controller</li><li>4.5 Your own assets</li><li>4.6 Press Play</li><li>4.7 Setting up by hand</li></ul></li>
+  <li><a href="#s5">5. Day and Night</a><ul><li>5.1 How time works</li><li>5.2 The sky through the day</li><li>5.3 Bright nights</li><li>5.4 Previewing in the Editor</li></ul></li>
+  <li><a href="#s6">6. Weather</a><ul><li>6.1 The six weathers</li><li>6.2 Choosing the weather</li><li>6.3 Rain</li><li>6.4 Lightning</li></ul></li>
+  <li><a href="#s7">7. The Clock and Time Dial</a><ul><li>7.1 The clock button</li><li>7.2 Opening the dial</li><li>7.3 Using the dial</li><li>7.4 Skipping time</li></ul></li>
+  <li><a href="#s8">8. Ambient Audio</a></li>
+  <li><a href="#s9">9. Using Your Own Assets</a><ul><li>9.1 Skies</li><li>9.2 Sounds</li><li>9.3 Lightning</li><li>9.4 Weather effects</li></ul></li>
+  <li><a href="#s10">10. Component Reference</a><ul><li>10.1 SkyClock</li><li>10.2 SkyboxCycle</li><li>10.3 WeatherSystem</li><li>10.4 AmbientAudio</li><li>10.5 SkyClockUI</li><li>10.6 Sky Preset</li></ul></li>
+  <li><a href="#s11">11. Script Reference</a><ul><li>11.1 SkyClock</li><li>11.2 WeatherSystem</li><li>11.3 SkyClockUI</li><li>11.4 Examples</li></ul></li>
+  <li><a href="#s12">12. Editor Tools</a></li>
+  <li><a href="#s13">13. Technical Notes</a></li>
+  <li><a href="#s14">14. Troubleshooting</a></li>
+  <li><a href="#s15">15. Support and Version History</a></li>
+</ul></div>
+
+<!-- 1 -->
+<h1 id="s1">1. Introduction</h1>
+<h2>1.1 What Sundial does</h2>
+<p>Sundial gives your Unity scene a living sky. Time passes on its own, the sky fades smoothly through night, sunrise, day and sunset, and the weather changes at random, or stays exactly as you set it for each environment. Players can choose the time of day on a time dial, and the sky skips ahead with an animation.</p>
+<table>
+  <tr><th style="width:26%">Feature</th><th>What you get</th></tr>
+  <tr><td>Day and night</td><td>Blended panoramic skies, a sun and moon light, fog and ambient light that follow the time. Bright, stylized nights. Preview any hour in the Editor.</td></tr>
+  <tr><td>Weather</td><td>Clear, Rain, Snow, Storm, Thunderstorm and Blizzard. Random weather from a list you choose, or one fixed weather per environment.</td></tr>
+  <tr><td>Lightning</td><td>Branching bolts that strike fast and smoothly, with impact effects, lightning inside the clouds, a light flash, Bloom, and thunder timed to the strike's distance.</td></tr>
+  <tr><td>Clock and time dial</td><td>An on-screen clock with day/night and weather, and a time dial: drag to a time, each full turn adds a day, and Confirm skips the sky ahead.</td></tr>
+  <tr><td>Ambient audio</td><td>Rain, wind, birds, crickets, storm and thunder, fading with the weather and time of day. Placeholder sounds are generated, so it works without audio files.</td></tr>
+  <tr><td>Your own assets</td><td>Slots for your own skies, sounds, lightning prefabs and any effect for any weather.</td></tr>
+  <tr><td>For programmers</td><td>Events, in-game timers, save and load, and a small, documented API.</td></tr>
+  <tr><td>Editor tools</td><td>A Setup window with one-click setup, and an icon for each component.</td></tr>
+</table>
+<h2>1.2 Package contents</h2>
+<table>
+  <tr><th style="width:26%">Folder / file</th><th>Contents</th></tr>
+  <tr><td><code>Demo/</code></td><td>The demo scene <code>SkyClock Demo</code>, its materials and its post-processing profile.</td></tr>
+  <tr><td><code>Documentation/</code></td><td>This manual.</td></tr>
+  <tr><td><code>Editor/</code></td><td>The Sundial Setup window and the component icons. Editor only; not included in builds.</td></tr>
+  <tr><td><code>Presets/</code></td><td><code>SkyClock Default</code>, the default Sky Preset.</td></tr>
+  <tr><td><code>Scripts/</code></td><td>The runtime scripts, the two URP shaders and the <code>SkyClock</code> assembly definition.</td></tr>
+  <tr><td><code>Skies/</code></td><td>Six original panoramas: Day, Sunrise, Sunset, Night, Rainy and Snowy (2048 × 1024).</td></tr>
+  <tr><td><code>SkyClock Sky.mat</code></td><td>The sky material used by SkyboxCycle.</td></tr>
+  <tr><td><code>README.md</code></td><td>A short text version of the quick start.</td></tr>
+</table>
+<h2>1.3 Names used in the project</h2>
+<p>Sundial is the product name. Inside your project the folder is <code>Assets/SkyClock</code>, the scripts use the namespace <code>SkyClockKit</code>, and the assemblies are called <code>SkyClock</code> (runtime) and <code>SkyClock.Editor</code> (Editor only).</p>
+
+<!-- 2 -->
+<h1 id="s2">2. Requirements</h1>
+<table>
+  <tr><th style="width:26%">Item</th><th>Requirement</th></tr>
+  <tr><td>Unity</td><td>Unity 6. Developed and tested with Unity 6000.6.</td></tr>
+  <tr><td>Render pipeline</td><td>Universal Render Pipeline (URP), tested with URP 17.6. The Built-in Render Pipeline and HDRP are not supported.</td></tr>
+  <tr><td>Packages</td><td>Universal RP, Input System and Unity UI (uGUI). All three come with Unity 6's URP templates.</td></tr>
+  <tr><td>Input</td><td>The Input System package, used for the keyboard shortcuts and for mouse and touch input on the dial.</td></tr>
+  <tr><td>Post-processing</td><td>Optional. Bloom makes the lightning glow; everything works without it.</td></tr>
+  <tr><td>Platforms</td><td>Any platform URP supports. The time dial works with mouse and touch.</td></tr>
+</table>
+
+<!-- 3 -->
+<h1 id="s3">3. Getting Started</h1>
+<p>This chapter takes you from an empty project to Sundial running in your scene. It takes a few minutes.</p>
+<h2>3.1 Create a new project</h2>
+<p>If you already have a Unity 6 project that uses URP, open it and go to 3.2.</p>
+<ol class="steps">
+  <li>Open <b>Unity Hub</b> and click <b>New project</b>.</li>
+  <li>Choose a <b>Unity 6</b> Editor version.</li>
+  <li>Select the <b>Universal 3D</b> template (URP).</li>
+  <li>Name the project, choose where to save it and click <b>Create project</b>.</li>
+</ol>
+<h2>3.2 Import Sundial</h2>
+<div class="side narrow">
+  <div>
+    <ol class="steps">
+      <li>In Unity, open <b>Window › Package Manager</b>.</li>
+      <li>Select <b>My Assets</b> and find <b>Sundial</b>.</li>
+      <li>Click <b>Download</b>, then <b>Import</b>.</li>
+      <li>Unity lists every file in the package, all marked <b>New</b>. Keep everything ticked and click <b>Import</b>.</li>
+      <li>Wait while Unity compiles the scripts. The Console should show no errors.</li>
+    </ol>
+    <p>Everything is placed in one folder, <code>Assets/SkyClock</code>.</p>
+    <div class="note">If the Console shows errors about <code>UnityEngine.InputSystem</code> or <code>UnityEngine.Rendering.Universal</code>, install the <b>Input System</b> or <b>Universal RP</b> package from the Package Manager.</div>
+  </div>
+  <figure><img src="images/import-list.jpg" alt=""><figcaption>Figure 3.1 Unity's import list.</figcaption></figure>
+</div>
+<figure><img src="images/project.jpg" alt=""><figcaption>Figure 3.2 Sundial in the Project window: one folder, Assets/SkyClock.</figcaption></figure>
+<h2>3.3 The Setup window</h2>
+<div class="side">
+  <div>
+    <p>When the scripts have compiled, the <b>Sundial Setup</b> window opens by itself. It walks you through the setup in six numbered steps, and adds Sundial to your scene with one click. Chapter 4 explains each step.</p>
+    <p>Open the window again at any time from <b>Tools › Sundial › Setup Guide</b>.</p>
+    <div class="tip">The Setup window opens by itself once per project. Its settings are the real component settings, so every change also shows in the Inspector and can be undone with <span class="kbd">Ctrl</span>/<span class="kbd">Cmd</span>+<span class="kbd">Z</span>.</div>
+  </div>
+  <figure><img src="images/setup-open.jpg" alt=""><figcaption>Figure 3.3 The Setup window right after import.</figcaption></figure>
+</div>
+<h2>3.4 Try the demo scene</h2>
+<p>To see everything working before you set up your own scene, open <code>Assets/SkyClock/Demo/SkyClock Demo</code> and press <b>Play</b>. Click the clock in the top-right corner (or press <span class="kbd">F2</span>) to open the time dial. To see a particular weather, select the <b>SkyClock</b> object and change <b>WeatherSystem › Choice</b>, for example to <b>Thunderstorm</b>; the change applies straight away in Play mode.</p>
+<h2 id="video">3.5 Video tutorial</h2>
+<p>This video shows the steps of this chapter and chapter 4, from creating a project to skipping time with the dial (1 min 54 s, no sound).</p>
+<video controls preload="metadata" poster="images/cover.jpg"><source src="Sundial_Setup_Tutorial.mp4" type="video/mp4"></video>
+
+<!-- 4 -->
+<h1 id="s4">4. Setup Guide</h1>
+<p>The Sundial Setup window (<b>Tools › Sundial › Setup Guide</b>) has six steps. A green check appears next to each finished step. Steps 4 and 5 are optional.</p>
+<h2>4.1 Add Sundial to the scene</h2>
+<div class="side">
+  <div>
+    <p>Open the scene that should have a sky, then click <b>Add Sundial to the scene</b>. This creates a <b>Sundial</b> object and sets up everything for you:</p>
+    <ul>
+      <li>Adds the five components: SkyClock, SkyboxCycle, WeatherSystem, AmbientAudio and SkyClockUI.</li>
+      <li>Uses your scene's Directional Light as the <b>Sun</b> (or creates one) and adds a <b>Moon</b> light.</li>
+      <li>Assigns the sky material, the default Sky Preset and URP's particle material for rain and snow.</li>
+      <li>Switches the scene to Sundial's sky, fog and ambient light.</li>
+    </ul>
+    <p>You can undo it with <span class="kbd">Ctrl</span>/<span class="kbd">Cmd</span>+<span class="kbd">Z</span>.</p>
+    <div class="note">Rain, snow and lightning are placed around the camera tagged <b>MainCamera</b>. The window warns you if your scene has none.</div>
+  </div>
+  <figure><img src="images/setup-after.jpg" alt=""><figcaption>Figure 4.1 After one click, the steps show green checks.</figcaption></figure>
+</div>
+<div class="grid2">
+  <figure><img src="images/before.jpg" alt=""><figcaption>Figure 4.2 Before: Unity's default sky.</figcaption></figure>
+  <figure><img src="images/after.jpg" alt=""><figcaption>Figure 4.3 After: Sundial's sky, light and fog.</figcaption></figure>
+</div>
+<h2>4.2 Sun, moon and sky</h2>
+<div class="side">
+  <div>
+    <p>This step shows the lights and sky that Sundial uses. They are already filled in after step 1.</p>
+    <ul>
+      <li><b>Sun</b> and <b>Moon</b>: Directional Lights that Sundial turns and dims through the day. Leave them empty if another system controls your lights.</li>
+      <li><b>Preview Hour</b>: drag it to see any time of day in the Scene and Game views, without pressing Play.</li>
+      <li><b>Day Length</b>: real minutes for one in-game day (24 by default).</li>
+      <li><b>Sky Material</b> and <b>Sky Preset</b>: the sky's material and pictures. See 9.1 to use your own.</li>
+    </ul>
+  </div>
+  <figure><img src="images/setup-sky.jpg" alt=""><figcaption>Figure 4.4 Step 2 in the Setup window.</figcaption></figure>
+</div>
+<h2>4.3 Weather</h2>
+<div class="side">
+  <div>
+    <ul>
+      <li><b>Weather</b>: <b>Random</b> changes the weather at every sunrise and sunset. Pick one weather to keep it fixed in this scene, for example Thunderstorm for a stormy level.</li>
+      <li><b>Allowed (Random)</b>: the weathers Random may choose. A desert might allow only Clear and Thunderstorm.</li>
+      <li><b>Rain &amp; Snow Material</b>: URP's <code>ParticlesUnlit</code>, already assigned.</li>
+    </ul>
+    <p>Chapter 6 describes every weather.</p>
+  </div>
+  <figure><img src="images/setup-weather.jpg" alt=""><figcaption>Figure 4.5 Step 3: Thunderstorm chosen for this scene.</figcaption></figure>
+</div>
+<h2>4.4 Character controller (optional)</h2>
+<div class="side">
+  <div>
+    <p>Many character controllers lock and hide the mouse cursor, for example Unity's Starter Assets. Sundial handles this for you:</p>
+    <ul>
+      <li>Players hold <b>Left Alt</b> (the <b>Cursor Key</b>) to show the cursor and click the clock, or press <span class="kbd">F2</span> (the <b>Toggle Key</b>) to open the dial directly.</li>
+      <li>While the dial is open, the cursor is free; afterwards it is restored exactly as it was.</li>
+    </ul>
+    <p>Add your player and camera controllers to <b>Pause While Open</b>. They are switched off while the dial is open or Alt is held, so moving the mouse turns the dial instead of the camera.</p>
+  </div>
+  <figure><img src="images/setup-controller.jpg" alt=""><figcaption>Figure 4.6 Step 4.</figcaption></figure>
+</div>
+<h2>4.5 Your own assets (optional)</h2>
+<div class="side">
+  <div>
+    <p>Step 5 collects every slot for your own content in one place: sky pictures, sounds, lightning prefabs and colours, and effects for each weather. Anything left empty uses Sundial's built-in version. Chapter 9 explains each slot.</p>
+    <p>Click <b>Create my own Sky Preset</b> to make an editable copy of the current sky that you can fill with your own pictures.</p>
+  </div>
+  <figure><img src="images/setup-assets.jpg" alt=""><figcaption>Figure 4.7 Step 5: slots for your own skies, sounds, lightning and effects.</figcaption></figure>
+</div>
+<h2>4.6 Press Play</h2>
+<figure><img src="images/setup-play.jpg" alt="" style="max-width:70%"><figcaption>Figure 4.8 Step 6.</figcaption></figure>
+<p>Click <b>Play</b>. Click the clock in the top-right corner (or press <span class="kbd">F2</span>), drag the handle to a time and click <b>Confirm</b> to watch the sky skip ahead. The step also has buttons for the demo scene and this manual.</p>
+<h2>4.7 Setting up by hand</h2>
+<p>To set up without the Setup window:</p>
+<ol class="steps">
+  <li>Create an empty GameObject and add <b>SkyClock</b>, <b>SkyboxCycle</b>, <b>WeatherSystem</b>, <b>AmbientAudio</b> and <b>SkyClockUI</b>. The components find each other.</li>
+  <li>On SkyClock, assign your Directional Light to <b>Sun</b> and, optionally, a second pale-blue Directional Light to <b>Moon</b>.</li>
+  <li>On SkyboxCycle, set <b>Sky Material</b> to <code>SkyClock Sky</code> and <b>Preset</b> to <code>SkyClock Default</code>, then disable and enable the component once to apply the sky.</li>
+  <li>On WeatherSystem, set <b>Particle Material</b> to <code>Packages/Universal RP/Runtime/Materials/ParticlesUnlit</code>.</li>
+</ol>
+<div class="note">SkyboxCycle sets the scene's skybox, ambient light mode and fog when it is enabled. To return to your own skybox, remove SkyboxCycle and restore the settings in <b>Window › Rendering › Lighting › Environment</b>.</div>
+
+<!-- 5 -->
+<h1 id="s5">5. Day and Night</h1>
+<h2>5.1 How time works</h2>
+<p>SkyClock keeps the time as an <b>hour</b> (0–24) and a <b>day</b> number. In Play mode the hour advances by itself: one in-game day lasts <b>Day Length Minutes</b> of real time (24 by default, so one in-game hour is one real minute). <b>Paused</b> stops time.</p>
+<p>Hours from <b>Day Start</b> (06:00) up to <b>Night Start</b> (18:00) count as day; the rest is night. These hours decide when the <b>On Sunrise</b> and <b>On Sunset</b> events fire, when the weather changes, and what the clock shows.</p>
+<h2>5.2 The sky through the day</h2>
+<p>SkyboxCycle reads the time-of-day keys in the Sky Preset (for example night, sunrise, day and sunset) and blends smoothly from one picture to the next. With each key it also blends the ambient light colour and the sky's exposure. The sky turns slowly (<b>Cloud Speed</b>), so the clouds drift.</p>
+<div class="grid3">
+  <figure><img src="images/tod-6.5.jpg" alt=""><figcaption>06:30 sunrise</figcaption></figure>
+  <figure><img src="images/tod-11.jpg" alt=""><figcaption>11:00 day</figcaption></figure>
+  <figure><img src="images/tod-17.8.jpg" alt=""><figcaption>17:48 sunset</figcaption></figure>
+</div>
+<div class="grid3">
+  <figure><img src="images/tod-18.6.jpg" alt=""><figcaption>18:36 dusk</figcaption></figure>
+  <figure><img src="images/tod-22.5.jpg" alt=""><figcaption>22:30 night</figcaption></figure>
+  <figure><img src="images/night.jpg" alt=""><figcaption>Night in Play mode</figcaption></figure>
+</div>
+<p>The sun light rises, crosses the sky and sets along a path whose compass direction is set by <b>Sun Yaw</b>; it is brightest at noon (<b>Sun Peak Intensity</b>). The moon light takes over at night and is brightest at midnight (<b>Moon Peak Intensity</b>).</p>
+<h2>5.3 Bright nights</h2>
+<p>Nights are stylized and bright enough to play in, as in many adventure games. <b>Night Ambient</b> on SkyboxCycle sets the darkest the ambient light can get, and <b>Moon Peak Intensity</b> on SkyClock sets the moonlight. For realistic dark nights, set Night Ambient close to black and lower the moon's intensity.</p>
+<h2>5.4 Previewing in the Editor</h2>
+<p>Drag <b>Hour</b> on SkyClock (or <b>Preview Hour</b> in the Setup window) to see any time of day in the Scene and Game views without pressing Play. The sky, lights, ambient light and fog all update.</p>
+
+<!-- 6 -->
+<h1 id="s6">6. Weather</h1>
+<h2>6.1 The six weathers</h2>
+<div class="grid3">
+  <figure><img src="images/wx-Clear.jpg" alt=""><figcaption><b>Clear</b>: the time-of-day sky; birds by day, crickets at night.</figcaption></figure>
+  <figure><img src="images/wx-Rain.jpg" alt=""><figcaption><b>Rain</b>: rainy sky, rain from light to heavy, more fog, dimmer light.</figcaption></figure>
+  <figure><img src="images/wx-Snow.jpg" alt=""><figcaption><b>Snow</b>: snowy sky, drifting snow and wind.</figcaption></figure>
+  <figure><img src="images/wx-Storm.jpg" alt=""><figcaption><b>Storm</b>: dark sky, heavy rain, wind, lightning and thunder.</figcaption></figure>
+  <figure><img src="images/wx-Thunderstorm.jpg" alt=""><figcaption><b>Thunderstorm</b>: lightning, thunder and cloud lightning; starts dry, with random showers.</figcaption></figure>
+  <figure><img src="images/wx-Blizzard.jpg" alt=""><figcaption><b>Blizzard</b>: dense snow blown sideways, a pale whiteout and howling wind.</figcaption></figure>
+</div>
+<p>Weather changes fade in over <b>Fade Hours</b> (one in-game hour by default): the weather sky blends over the time-of-day sky, the fog thickens, and the sun and ambient light dim.</p>
+<h2>6.2 Choosing the weather</h2>
+<p><b>Choice</b> on WeatherSystem decides the weather for this environment:</p>
+<ul>
+  <li><b>Random</b>: a new weather is chosen when the game starts and at every sunrise and sunset, only from the weathers ticked in <b>Allowed</b>. Some weathers are more common than others; the relative chances are Clear 3, Rain 1.5, Snow 1, Storm 0.6, Thunderstorm 0.4 and Blizzard 0.3.</li>
+  <li><b>A fixed weather</b> (for example Thunderstorm or Blizzard): that weather is always shown in this scene.</li>
+</ul>
+<p>Scripts can also change the weather at any time; see 11.2.</p>
+<h2>6.3 Rain</h2>
+<p>Rain is never constant. During Rain and Storm, the rain picks a new strength every 15–45 seconds, anywhere between <b>Lightest Rain</b> and full strength, and the rain sound follows it. A Thunderstorm starts dry; at each change there is a <b>Thunderstorm Shower Chance</b> (40%) of a shower.</p>
+<h2>6.4 Lightning</h2>
+<p>Storm and Thunderstorm have lightning. Every half second there is a <b>Strike Probability</b> chance of a strike (8% by default; 1 means a strike every half second). The first strike comes <b>First Strike After Seconds</b> after the storm has set in.</p>
+<ul>
+  <li><b>Bolts</b> branch naturally, grow from the cloud to the ground in a fraction of a second, then flash and fade with a few re-strokes.</li>
+  <li><b>Where they land:</b> between 15 and 150 metres from the camera (<b>Strike Distance</b>), within <b>Strike Spread</b> degrees of the view direction, so most strikes are visible. Set Strike Spread to 360 for strikes all around.</li>
+  <li><b>Several bolts:</b> each strike may add up to two extra bolts (<b>Extra Bolt Chance</b>) close to the first (<b>Bolt Cluster Radius</b>).</li>
+  <li><b>Impacts:</b> a flash, a light, sparks and flying debris where a bolt lands (<b>Impact Bursts</b>).</li>
+  <li><b>Cloud lightning:</b> small flickers inside the clouds between strikes (<b>Cloud Lightning</b>).</li>
+  <li><b>Flash:</b> the scene lights up, and a short burst of Bloom makes the bolt glow (<b>Lightning Bloom</b>).</li>
+  <li><b>Thunder</b> arrives after a delay that matches the strike's distance (the speed of sound), and distant strikes sound quieter.</li>
+</ul>
+
+<!-- 7 -->
+<h1 id="s7">7. The Clock and Time Dial</h1>
+<h2>7.1 The clock button</h2>
+<div class="side narrow">
+  <div>
+    <p>In Play mode, a round clock in the top-right corner shows the current time. Its small dot is gold by day and blue at night. Below it, a label shows whether it is <b>DAY</b> or <b>NIGHT</b> and the current weather.</p>
+  </div>
+  <figure><img src="images/hud.jpg" alt=""><figcaption>Figure 7.1 The clock and status label.</figcaption></figure>
+</div>
+<h2>7.2 Opening the dial</h2>
+<ul>
+  <li>Click the clock, or press <span class="kbd">F2</span> (the <b>Toggle Key</b>).</li>
+  <li>If your game locks the mouse cursor, hold <span class="kbd">Left Alt</span> (the <b>Cursor Key</b>) to show the cursor and click the clock.</li>
+  <li>Close the dial with <b>Cancel</b>, <span class="kbd">Esc</span>, <span class="kbd">F2</span>, or a click outside it.</li>
+</ul>
+<h2>7.3 Using the dial</h2>
+<div class="grid2">
+  <figure><img src="images/dial-open.jpg" alt=""><figcaption>Figure 7.2 The dial at 09:00.</figcaption></figure>
+  <figure><img src="images/dial-picked.jpg" alt=""><figcaption>Figure 7.3 Tomorrow at 19:00, 34 hours ahead.</figcaption></figure>
+</div>
+<table>
+  <tr><th style="width:30%">Action</th><th>Result</th></tr>
+  <tr><td>Drag the handle</td><td>Picks a time. The dial snaps to 5-minute steps (<b>Snap Minutes</b>).</td></tr>
+  <tr><td>Keep turning clockwise</td><td>Each full turn adds a day. The label shows, for example, <i>Tomorrow · Day 2</i> or <i>In 3 days</i>, and how far ahead the time is.</td></tr>
+  <tr><td>Turn back</td><td>Removes days again, but never goes earlier than the current time.</td></tr>
+  <tr><td>Morning · Noon · Evening · Night</td><td>Jump to 07:00, 12:00, 18:00 or 00:00 on the day currently chosen.</td></tr>
+  <tr><td>Confirm</td><td>Skips the sky ahead to the chosen time (see 7.4).</td></tr>
+</table>
+<p>The dial shows the part of the day at a glance:</p>
+<ul>
+  <li><b>Markers</b> on the ring: sunrise at 06, sun at 12, sunset at 18 and moon at 00.</li>
+  <li><b>The handle</b> changes as you turn it: a sunrise in the morning, a sun by day, a sunset in the evening and a moon at night, each in its own colour.</li>
+  <li><b>The card's background</b> shows the sky at the chosen time, taken from your Sky Preset, so it matches your scene.</li>
+</ul>
+<figure><img src="images/handle-phases.jpg" alt=""><figcaption>Figure 7.4 The handle at 07:00, 12:00, 17:00, 18:00 and 23:00.</figcaption></figure>
+<figure><img src="images/card-sky.jpg" alt=""><figcaption>Figure 7.5 The dial's background follows the chosen time.</figcaption></figure>
+<h2>7.4 Skipping time</h2>
+<p>After <b>Confirm</b>, the dial stays open and shows the skip: the handle races round the dial, a gold arc shows the time still to go, and the sky, light and card background move through the hours. A one-day skip takes about 3.75 seconds (<b>Skip Seconds</b> × 1.5); longer skips take longer, up to three times Skip Seconds. Time then carries on from the new time.</p>
+<div class="grid3">
+  <figure><img src="images/skip-06.jpg" alt=""><figcaption>Skipping: morning</figcaption></figure>
+  <figure><img src="images/skip-14.jpg" alt=""><figcaption>Skipping: afternoon</figcaption></figure>
+  <figure><img src="images/skip-19.jpg" alt=""><figcaption>Skipping: evening</figcaption></figure>
+</div>
+
+<!-- 8 -->
+<h1 id="s8">8. Ambient Audio</h1>
+<p>AmbientAudio plays layered ambience that follows the weather and the time of day. Each layer fades smoothly to its target volume.</p>
+<table>
+  <tr><th style="width:22%">Layer</th><th>When it plays</th></tr>
+  <tr><td>Rain</td><td>During Rain, Storm and Thunderstorm showers; its volume follows the rain's strength.</td></tr>
+  <tr><td>Wind</td><td>Always softly; stronger in snow and storms, and loudest in a blizzard.</td></tr>
+  <tr><td>Birds</td><td>By day in calm weather.</td></tr>
+  <tr><td>Crickets</td><td>At night in calm weather.</td></tr>
+  <tr><td>Storm</td><td>Optional continuous storm ambience during Storm and Thunderstorm, only if you assign a clip.</td></tr>
+  <tr><td>Thunder</td><td>After each lightning strike, delayed by the strike's distance; distant thunder is quieter.</td></tr>
+</table>
+<p>Without your own clips, Sundial generates simple placeholder sounds, so the demo works out of the box. For a finished game, assign recorded sounds (see 9.2).</p>
+
+<!-- 9 -->
+<h1 id="s9">9. Using Your Own Assets</h1>
+<p>Every part of Sundial can use your own content. All slots are in step 5 of the Setup window and on the components in the Inspector. An empty slot uses the built-in version.</p>
+<h2>9.1 Skies</h2>
+<ol class="steps">
+  <li>In the Setup window, click <b>Create my own Sky Preset</b> (or use <b>Assets › Create › SkyClock › Sky Preset</b>). A preset made in the Setup window starts as a copy of the current sky.</li>
+  <li>Select it and open <b>Keys</b>. Each key has an <b>Hour</b>, a <b>Sky</b> picture, an <b>Ambient</b> colour and an <b>Exposure</b>. Replace the pictures with your own.</li>
+  <li>Set <b>Rain Sky</b> and <b>Snow Sky</b> for bad weather.</li>
+  <li>Assign the preset to <b>SkyboxCycle › Preset</b> (the Setup window does this for you).</li>
+</ol>
+<div class="note">Use <b>equirectangular</b> (2:1 panoramic) pictures, for example 2048 × 1024 or 4096 × 2048. In each texture's import settings, turn off <b>Generate Mip Maps</b> to avoid a visible seam.</div>
+<h2>9.2 Sounds</h2>
+<p>On <b>AmbientAudio</b>, assign <b>Rain Loop</b>, <b>Wind Loop</b>, <b>Birds Loop</b>, <b>Crickets Loop</b> and <b>Storm Loop</b> (looping clips), and any number of <b>Thunder Clips</b> (one is picked at random per strike). Assign the loops before pressing Play; Storm Loop and Thunder Clips can also be changed during Play.</p>
+<h2>9.3 Lightning</h2>
+<ul>
+  <li><b>Bolt Prefabs</b> (WeatherSystem): your own bolt, placed where lightning strikes. Put the prefab's pivot where the bolt touches the ground; it is turned to face the camera and removed after <b>Bolt Prefab Lifetime</b>.</li>
+  <li><b>Impact Prefabs</b>: your own explosion, sparks or scorch mark where a bolt lands. Replaces the built-in impact and is removed after <b>Impact Prefab Lifetime</b>.</li>
+  <li><b>Bolt Color</b> and <b>Bolt Glow Color</b>: the colours of the built-in bolt's core and glow (HDR, so Bloom catches them).</li>
+</ul>
+<h2>9.4 Weather effects</h2>
+<p><b>Custom Effects</b> on WeatherSystem adds any prefab to any weather: mist, falling leaves, fireflies, dust, embers, or your own rain. For each entry, choose a <b>Weather</b> and a <b>Prefab</b>. The prefab follows the camera and fades in and out with the weather: its particle emission and AudioSource volumes are scaled automatically. Tick <b>Replace Built In</b> to hide Sundial's own rain or snow for that weather.</p>
+
+<!-- 10 -->
+<h1 id="s10">10. Component Reference</h1>
+<p>Every Inspector setting, with its default value.</p>
+<h2>10.1 SkyClock</h2>
+<p>Keeps the time, moves the sun and moon, and runs events and timers.</p>
+<table>
+  <tr><th style="width:30%">Setting</th><th style="width:14%">Default</th><th>Description</th></tr>
+  <tr><td>Hour</td><td>8</td><td>The current hour (0–24). Drag it in Edit mode to preview.</td></tr>
+  <tr><td>Day</td><td>1</td><td>The current day number.</td></tr>
+  <tr><td>Day Length Minutes</td><td>24</td><td>Real minutes for one in-game day.</td></tr>
+  <tr><td>Paused</td><td>Off</td><td>Stops time from passing.</td></tr>
+  <tr><td>Day Start / Night Start</td><td>6 / 18</td><td>Hours from Day Start up to Night Start count as day.</td></tr>
+  <tr><td>Sun / Moon</td><td>None</td><td>Directional Lights that SkyClock turns and dims. Optional.</td></tr>
+  <tr><td>Sun Yaw</td><td>-30</td><td>Compass direction of the sun's path, in degrees.</td></tr>
+  <tr><td>Sun / Moon Peak Intensity</td><td>1.2 / 0.25</td><td>Light intensity at noon and at midnight.</td></tr>
+  <tr><td>Events</td><td>—</td><td>On Time Changed 01, On Hour Changed, On Day Changed, On Sunrise, On Sunset.</td></tr>
+</table>
+<h2>10.2 SkyboxCycle</h2>
+<p>Draws the sky, sets the ambient light and fog, and shows the weather sky.</p>
+<table>
+  <tr><th style="width:30%">Setting</th><th style="width:14%">Default</th><th>Description</th></tr>
+  <tr><td>Sky Material</td><td>None</td><td>Use <code>SkyClock Sky</code>.</td></tr>
+  <tr><td>Preset</td><td>None</td><td>A Sky Preset. When set, it replaces Keys, Rain Sky and Snow Sky.</td></tr>
+  <tr><td>Keys</td><td>—</td><td>Time-of-day keys: hour, sky picture, ambient colour, exposure.</td></tr>
+  <tr><td>Rain Sky / Snow Sky</td><td>None</td><td>Pictures for rainy and snowy weather.</td></tr>
+  <tr><td>Cloud Speed</td><td>2</td><td>Degrees the sky turns per in-game hour.</td></tr>
+  <tr><td>Fog Density / Weather Fog Density</td><td>0.004 / 0.035</td><td>Fog in clear weather and in full rain or snow.</td></tr>
+  <tr><td>Night Ambient</td><td>Moonlit blue</td><td>The darkest the ambient light gets.</td></tr>
+  <tr><td>Storm Sky Brightness</td><td>0.65</td><td>Brightness of the storm sky.</td></tr>
+  <tr><td>Storm Sky Saturation</td><td>0.35</td><td>Colour left in the storm sky (0 = grey).</td></tr>
+  <tr><td>Storm Light</td><td>0.6</td><td>Ambient light remaining under a storm.</td></tr>
+</table>
+<h2>10.3 WeatherSystem</h2>
+<p>Chooses the weather, runs rain and snow, and creates lightning.</p>
+<table>
+  <tr><th style="width:30%">Setting</th><th style="width:14%">Default</th><th>Description</th></tr>
+  <tr><td>Choice</td><td>Random</td><td>Random, or one fixed weather.</td></tr>
+  <tr><td>Allowed</td><td>All</td><td>The weathers Random may choose.</td></tr>
+  <tr><td>Particle Material</td><td>None</td><td>Material for rain and snow (URP ParticlesUnlit).</td></tr>
+  <tr><td>Fade Hours</td><td>1</td><td>In-game hours a weather change takes.</td></tr>
+  <tr><td>Rain Rate / Snow Rate</td><td>1500 / 500</td><td>Particles per second at full strength.</td></tr>
+  <tr><td>Blizzard Snow Multiplier</td><td>3</td><td>How much denser blizzard snow is.</td></tr>
+  <tr><td>Blizzard Wind</td><td>14</td><td>Sideways speed of blizzard snow (m/s).</td></tr>
+  <tr><td>Lightest Rain</td><td>0.25</td><td>Weakest random rain strength.</td></tr>
+  <tr><td>Thunderstorm Shower Chance</td><td>0.4</td><td>Chance of a shower at each rain change.</td></tr>
+  <tr><td>Min / Max Seconds Between Rain Changes</td><td>15 / 45</td><td>How often the rain picks a new strength.</td></tr>
+  <tr><td>Bad Weather Light</td><td>0.55</td><td>Sun and moon brightness in full rain or snow.</td></tr>
+  <tr><td>First Strike After Seconds</td><td>2</td><td>Delay before the first strike.</td></tr>
+  <tr><td>Strike Probability</td><td>0.08</td><td>Chance of a strike every half second.</td></tr>
+  <tr><td>Strike Distance</td><td>15–150 m</td><td>How far from the camera strikes land.</td></tr>
+  <tr><td>Strike Spread</td><td>150°</td><td>Angle around the view direction (360 = all around).</td></tr>
+  <tr><td>Extra Bolt Chance</td><td>0.35</td><td>Chance of each extra bolt (up to three per strike).</td></tr>
+  <tr><td>Bolt Cluster Radius</td><td>25 m</td><td>How close extra bolts land to the first.</td></tr>
+  <tr><td>Impact Bursts</td><td>On</td><td>Flash, light, sparks and debris on impact.</td></tr>
+  <tr><td>Cloud Lightning</td><td>On</td><td>Flickers in the clouds every 0.4–2 seconds.</td></tr>
+  <tr><td>Lightning Bloom</td><td>3</td><td>Extra Bloom during a flash (0 = off).</td></tr>
+  <tr><td>Bolt Color / Bolt Glow Color</td><td>White-blue / violet</td><td>Colours of the bolt core and glow.</td></tr>
+  <tr><td>Custom Effects</td><td>Empty</td><td>Your prefabs per weather (9.4).</td></tr>
+  <tr><td>Bolt / Impact Prefabs</td><td>Empty</td><td>Your lightning prefabs (9.3); lifetimes 1.5 s and 3 s.</td></tr>
+  <tr><td>Events</td><td>—</td><td>On Weather Changed, On Lightning.</td></tr>
+</table>
+<h2>10.4 AmbientAudio</h2>
+<table>
+  <tr><th style="width:30%">Setting</th><th style="width:14%">Default</th><th>Description</th></tr>
+  <tr><td>Rain, Wind, Birds, Crickets Loop</td><td>Empty</td><td>Looping clips; empty uses a generated placeholder.</td></tr>
+  <tr><td>Thunder Clips</td><td>Empty</td><td>One is picked at random per strike.</td></tr>
+  <tr><td>Storm Loop</td><td>Empty</td><td>Optional storm ambience.</td></tr>
+  <tr><td>Master Volume</td><td>0.8</td><td>Overall volume.</td></tr>
+  <tr><td>Fade Speed</td><td>0.5</td><td>Volume change per real second.</td></tr>
+</table>
+<h2>10.5 SkyClockUI</h2>
+<table>
+  <tr><th style="width:30%">Setting</th><th style="width:14%">Default</th><th>Description</th></tr>
+  <tr><td>Accent / Panel / Text / Night Color</td><td>Gold / dark / white / pale blue</td><td>Colours of the clock and dial.</td></tr>
+  <tr><td>Skip Seconds</td><td>2.5</td><td>Base length of the skip animation.</td></tr>
+  <tr><td>Snap Minutes</td><td>5</td><td>Step size when dragging the dial.</td></tr>
+  <tr><td>Toggle Key</td><td>F2</td><td>Opens and closes the dial.</td></tr>
+  <tr><td>Cursor Key</td><td>Left Alt</td><td>Hold to show a locked cursor (None = off).</td></tr>
+  <tr><td>Pause While Open</td><td>Empty</td><td>Components switched off while the dial is open or the Cursor Key is held.</td></tr>
+</table>
+<h2>10.6 Sky Preset</h2>
+<p>A ScriptableObject that stores a complete sky look: <b>Keys</b> (time-of-day pictures, ambient colours and exposures), <b>Rain Sky</b> and <b>Snow Sky</b>. Create one with <b>Assets › Create › SkyClock › Sky Preset</b> or the Setup window.</p>
+
+<!-- 11 -->
+<h1 id="s11">11. Script Reference</h1>
+<p>All types are in the <code>SkyClockKit</code> namespace: add <code>using SkyClockKit;</code> to your script.</p>
+<h2>11.1 SkyClock</h2>
+<table>
+  <tr><th style="width:44%">Member</th><th>Description</th></tr>
+  <tr><td><code>float hour</code>, <code>int day</code></td><td>The current hour (0–24) and day.</td></tr>
+  <tr><td><code>float TotalHours</code></td><td>Hours since Day 1, 00:00.</td></tr>
+  <tr><td><code>bool IsNight</code>, <code>IsNightAt(float h)</code></td><td>Whether it is night now, or at an hour.</td></tr>
+  <tr><td><code>string TimeString</code></td><td>The time as text, such as <code>"18:30"</code>.</td></tr>
+  <tr><td><code>bool IsFastForwarding</code></td><td>True while a skip is playing.</td></tr>
+  <tr><td><code>SetTime(float h)</code>, <code>SetTime(int h, int m)</code></td><td>Jumps to a time on the current day.</td></tr>
+  <tr><td><code>SetMorning()</code>, <code>SetNoon()</code>, <code>SetEvening()</code>, <code>SetNight()</code></td><td>Jumps to a preset time.</td></tr>
+  <tr><td><code>AddHours(float hours)</code></td><td>Moves time forward instantly.</td></tr>
+  <tr><td><code>FastForwardHours(float hours, float seconds = 2)</code></td><td>Plays a skip of any length (48 = two days).</td></tr>
+  <tr><td><code>FastForwardTo(float hour, float seconds = 2)</code></td><td>Skips to the next occurrence of an hour.</td></tr>
+  <tr><td><code>SetPaused(bool paused)</code></td><td>Stops or resumes time.</td></tr>
+  <tr><td><code>After(float hours, Action callback)</code></td><td>Calls back once after that many in-game hours.</td></tr>
+  <tr><td><code>At(int day, float hour, Action callback)</code></td><td>Calls back once at a day and hour.</td></tr>
+  <tr><td><code>ClearTimers()</code></td><td>Removes all pending timers.</td></tr>
+  <tr><td><code>Save(string key = "SkyClock")</code></td><td>Saves the day, hour and weather (PlayerPrefs).</td></tr>
+  <tr><td><code>bool Load(string key = "SkyClock")</code></td><td>Loads them; returns false when there is no save. Timers are not saved.</td></tr>
+  <tr><td>Events</td><td><code>onTimeChanged01</code>, <code>onHourChanged</code>, <code>onDayChanged</code>, <code>onSunrise</code>, <code>onSunset</code>.</td></tr>
+</table>
+<h2>11.2 WeatherSystem</h2>
+<table>
+  <tr><th style="width:44%">Member</th><th>Description</th></tr>
+  <tr><td><code>enum Weather</code></td><td><code>Clear</code>, <code>Rain</code>, <code>Snow</code>, <code>Storm</code>, <code>Thunderstorm</code>, <code>Blizzard</code>.</td></tr>
+  <tr><td><code>Weather Current</code></td><td>The weather that was chosen.</td></tr>
+  <tr><td><code>Weather Showing</code>, <code>float Amount</code></td><td>The weather on screen, and how strongly it shows (0–1).</td></tr>
+  <tr><td><code>float RainIntensity</code></td><td>The current rain strength (0–1).</td></tr>
+  <tr><td><code>Set(Weather w)</code></td><td>Changes the weather with a fade.</td></tr>
+  <tr><td><code>SetImmediate(Weather w)</code></td><td>Changes the weather at once.</td></tr>
+  <tr><td><code>Roll()</code></td><td>Chooses the weather again (Choice, Allowed and chances).</td></tr>
+  <tr><td><code>Strike()</code></td><td>Creates a lightning strike now.</td></tr>
+  <tr><td><code>bool IsAllowed(Weather w)</code></td><td>Whether a weather is in Allowed.</td></tr>
+  <tr><td>Events</td><td><code>onWeatherChanged</code> (the new weather), <code>onLightning</code>.</td></tr>
+</table>
+<h2>11.3 SkyClockUI</h2>
+<table>
+  <tr><th style="width:44%">Member</th><th>Description</th></tr>
+  <tr><td><code>Open()</code>, <code>Close()</code></td><td>Opens or closes the time dial.</td></tr>
+  <tr><td><code>bool IsOpen</code></td><td>Whether the dial is open.</td></tr>
+  <tr><td><code>Confirm()</code></td><td>Confirms the chosen time, like the Confirm button.</td></tr>
+</table>
+<h2>11.4 Examples</h2>
+<p><b>A quest that says "come back the day after tomorrow":</b></p>
+<pre>using SkyClockKit;
+using UnityEngine;
+
+public class ReturnQuest : MonoBehaviour
+{
+    public SkyClock clock;
+
+    public void Accept()
+    {
+        clock.After(48f, () =&gt; Debug.Log("The merchant is back."));
+    }
+}</pre>
+<p><b>Torches at night, and a warning before storms:</b></p>
+<pre>clock.onSunset.AddListener(() =&gt; torches.SetActive(true));
+clock.onSunrise.AddListener(() =&gt; torches.SetActive(false));
+weather.onWeatherChanged.AddListener(w =&gt;
+{
+    if (w == WeatherSystem.Weather.Thunderstorm) Debug.Log("Find shelter!");
+});</pre>
+<p><b>A cutscene at dusk with a storm:</b></p>
+<pre>clock.FastForwardTo(19f, 3f);                       // skip to 19:00 over 3 seconds
+weather.SetImmediate(WeatherSystem.Weather.Storm);
+weather.Strike();                                   // a strike right now</pre>
+
+<!-- 12 -->
+<h1 id="s12">12. Editor Tools</h1>
+<h2>Sundial Setup window</h2>
+<p><b>Tools › Sundial › Setup Guide</b>. It opens by itself once after import; see chapters 3 and 4. It adds Sundial to the open scene in one click, shows a check for each finished step, and keeps up with changes: it rebuilds itself when you add or remove Sundial or open another scene. While Play mode is running its settings are read-only, because changes made in Play mode are not kept.</p>
+<h2>Component icons</h2>
+<p>Each Sundial component has its own icon in the Inspector and the Project window:</p>
+<figure><img src="images/icons.jpg" alt=""><figcaption>Figure 12.1 SkyClock, SkyClockUI, SkyboxCycle, WeatherSystem, AmbientAudio and Sky Preset.</figcaption></figure>
+<h2>Edit-mode preview</h2>
+<p>SkyClock and SkyboxCycle run in Edit mode: changing <b>Hour</b> updates the sky, lights, ambient light and fog in the Scene view, so you can light and art-direct a scene at any time of day without pressing Play.</p>
+
+<!-- 13 -->
+<h1 id="s13">13. Technical Notes</h1>
+<h2>Render pipeline</h2>
+<p>Sundial's two shaders, <code>SkyClock/Panoramic Blend</code> (the sky) and <code>SkyClock/Lightning</code> (bolts and impacts), are written for the Universal Render Pipeline. Lightning uses additive HDR colour, so it glows with Bloom; during a flash, a temporary global Volume adds extra Bloom.</p>
+<h2>Enter Play Mode options</h2>
+<p>From Unity 6.6, new projects enter Play mode without reloading scripts, so static variables keep their values between Play sessions. Sundial's runtime scripts keep no changing static data and use no static events, so every Play session starts clean. No settings are needed.</p>
+<h2>Performance</h2>
+<ul>
+  <li>Rain and snow are single particle systems that follow the camera; their amounts are set by <b>Rain Rate</b> and <b>Snow Rate</b>.</li>
+  <li>The sky is one material, and the time dial is one uGUI canvas built when the game starts.</li>
+  <li>The built-in lightning objects are created once and reused for every strike.</li>
+  <li>Placeholder sounds are generated once at start; assigning your own clips skips that.</li>
+</ul>
+<h2>Assemblies</h2>
+<p><code>SkyClock</code> (runtime) references Unity.InputSystem, Unity.RenderPipelines.Core.Runtime, Unity.RenderPipelines.Universal.Runtime and UnityEngine.UI. <code>SkyClock.Editor</code> is Editor-only and references SkyClock.</p>
+
+<!-- 14 -->
+<h1 id="s14">14. Troubleshooting</h1>
+<table>
+  <tr><th style="width:36%">Problem</th><th>Solution</th></tr>
+  <tr><td>The Setup window did not open after import.</td><td>Open it from <b>Tools › Sundial › Setup Guide</b>. It opens by itself only once per project.</td></tr>
+  <tr><td>The sky stays black or does not change.</td><td>Check that SkyboxCycle has <b>Sky Material</b> and <b>Preset</b> set and is enabled. After assigning the material by hand, disable and enable SkyboxCycle once.</td></tr>
+  <tr><td>Pink sky, rain or lightning.</td><td>The project is not using URP, or the particle material is not a URP material. Use URP and <code>ParticlesUnlit</code>.</td></tr>
+  <tr><td>No rain or snow appears.</td><td>Set <b>Particle Material</b> on WeatherSystem and make sure a camera is tagged <b>MainCamera</b>.</td></tr>
+  <tr><td>Lightning does not glow.</td><td>Add Bloom to a Volume in your scene, or raise <b>Lightning Bloom</b>.</td></tr>
+  <tr><td>I rarely see lightning.</td><td>Raise <b>Strike Probability</b>, or lower <b>Strike Spread</b> so strikes land in view.</td></tr>
+  <tr><td>The clock cannot be clicked.</td><td>Your game locks the cursor: hold <b>Left Alt</b>, or press <b>F2</b>. If an old EventSystem in your scene uses the Standalone Input Module, replace it with the Input System UI Input Module.</td></tr>
+  <tr><td>Moving the mouse on the dial turns the camera.</td><td>Add your player and camera controllers to <b>SkyClockUI › Pause While Open</b>.</td></tr>
+  <tr><td>Nights are too bright or too dark.</td><td>Adjust <b>SkyboxCycle › Night Ambient</b> and <b>SkyClock › Moon Peak Intensity</b>.</td></tr>
+  <tr><td>A seam is visible in my own sky.</td><td>Turn off <b>Generate Mip Maps</b> on the sky texture and use a 2:1 panorama.</td></tr>
+  <tr><td>F2 or Alt does nothing.</td><td>Sundial uses the Input System. Check <b>Project Settings › Player › Active Input Handling</b>, and click the Game view so it has keyboard focus.</td></tr>
+  <tr><td>The weather changes when I don't want it to.</td><td>Set <b>Choice</b> to one weather instead of Random, or untick weathers in <b>Allowed</b>.</td></tr>
+</table>
+
+<!-- 15 -->
+<h1 id="s15">15. Support and Version History</h1>
+<h2>Support</h2>
+<p>For questions, bug reports or suggestions, contact the publisher through Sundial's Asset Store page. Please include your Unity version and, for errors, the full Console message.</p>
+<h2>Version history</h2>
+<table>
+  <tr><th style="width:14%">Version</th><th>Changes</th></tr>
+  <tr><td>1.0.0</td><td>First release: day-night cycle with blended panoramic skies; six weathers with random or fixed weather per environment; lightning with impacts, cloud lightning and Bloom; ambient audio with generated placeholders; clock and multi-day time dial with animated skip; slots for your own skies, sounds, lightning and effects; timers, events, save and load; the Sundial Setup window; component icons; demo scene.</td></tr>
+</table>
+
+</main>
+<footer>Sundial 1.0.0 · Documentation · <a href="Sundial_Documentation.pdf">PDF version</a></footer>
+</body>
+</html>
